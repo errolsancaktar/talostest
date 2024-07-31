@@ -2,7 +2,6 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - hass-stack/home-assistant/
-#  - nfs.yml
 #  - metallb/
   #- hass-stack/zigbee/
   #- hass-stack/zwave/
