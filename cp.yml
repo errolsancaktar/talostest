@@ -9,28 +9,15 @@ machine:
     key: LS0tLS1CRUdJTiBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0KTUM0Q0FRQXdCUVlESzJWd0JDSUVJRGgyOG1xenFxWnA4ckdhekFhYjhXZUdPRlA1eWVXdWgvcDh5NmZCVVh5eAotLS0tLUVORCBFRDI1NTE5IFBSSVZBVEUgS0VZLS0tLS0K
   certSANs: []
   kubelet:
-    image: ghcr.io/siderolabs/kubelet:v1.30.3@sha256:8b79e828262d57d40607a21994276cbd0498550fcae1cef32b725ab88e1582c4
+    image: ghcr.io/siderolabs/kubelet:v1.30.3
     defaultRuntimeSeccompProfileEnabled: true 
     disableManifestsDirectory: true 
-    nodeIP:
-      validSubnets:
-        - 10.0.0.0/8
     extraArgs:
       rotate-server-certificates: true
-  network:
-    interfaces:
-      - interface: ens160 
-        addresses:
-          - 10.10.8.202/24
-        routes:
-          - network: 0.0.0.0/0 
-            gateway: 10.10.8.1 
-    nameservers:
-      - 10.10.8.1
   install:
     disk: /dev/nvme0n1 
-    image: ghcr.io/siderolabs/installer:latest@sha256:f240ef13c197c3165ae2c074b9df0f4e5afbdd4f7d2ee4d566efc7ac08d97c97
-    wipe: false 
+    image: ghcr.io/siderolabs/installer:latest
+    wipe: true 
     extraKernelArgs:
       - talos.platform=metal
       - reboot=k
@@ -47,11 +34,16 @@ machine:
       enabled: true 
   nodeLabels:
     stack: homeassistant
+  disks:
+    - device: /dev/sda # The name of the disk to use.
+      partitions:
+        - mountpoint: /var/mnt/local # Where to mount the partition.
+
 cluster:
   id: e8hYKKpZgDi2fMeB-zAMHOk8_-FqAf2dMSJdBlnTpGw= 
   secret: MdiCB5E0j3tXEQwKO0euGpkz1i5EgV9/jPiVqZfc908= 
   controlPlane:
-    endpoint: https://10.10.8.202 
+    endpoint: https://192.168.32.216
   clusterName: homeassistant 
   network:
     dnsDomain: cluster.local 

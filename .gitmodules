@@ -1,0 +1,3 @@
+[submodule "hass-stack/home-assistant-k8s"]
+	path = hass-stack/home-assistant-k8s
+	url = https://github.com/abalage/home-assistant-k8s.git
